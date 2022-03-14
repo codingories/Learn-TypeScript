@@ -31,9 +31,32 @@
 // const result3: string = echo(true)
 
 // 泛型在元组交换中的使用
-function swap<T, U>(tuple: [T, U]): [U, T] {
-  return [tuple[1], tuple[0]];
+// function swap<T, U>(tuple: [T, U]): [U, T] {
+//   return [tuple[1], tuple[0]];
+// }
+//
+// // 这样就能正确的获得返回的类型
+// const result = swap(['string', 123]);
+
+// function echoWithArr<T>(arg: T[]): T[] {
+//   // 在我们函数内部使用泛型变量，事先不知道它里面是什么类型的变量，所以会报TS2339: Property 'length' does not exist on type 'T'.
+//   // 泛型T不一定包含属性length，需要写成T[]，但是这种方案并不好，因为String也有length,但是这么写传入string就会报错
+//   console.log(arg.length);
+//   return arg;
+// }
+
+// const arrs = echoWithArr([1, 2, 3]);
+
+interface IWithLength {
+  length: number
 }
 
-// 这样就能正确的获得返回的类型
-const result = swap(['string', 123]);
+// 使用extends关键字约束泛型，意思是说哥们你穿入的类型必须要有length这个属性
+function echoWithLength<T extends IWithLength>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+const str = echoWithLength('str');
+const obj = echoWithLength({length: 10});
+const arr2 = echoWithLength([1, 2, 3]);
