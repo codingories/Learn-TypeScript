@@ -35,4 +35,4 @@ const add2: (x: number, y:number, z?:number) => number = add;
 
 let str = "123"
 
-str = 123
+// str = 123
